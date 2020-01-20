@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t abilgaiyan/react-test -f ./client/Dockerfile.dev ./client
+
+scripts:
+  - docker run -e CI=true abilgiyan/react-test npm test
+
+after_success:
+  - docker build -t abilgaiyan/multi-client ./client
+  - docker build -t abilgaiyan/multi-nginx ./nginx
+  - docker build -t abilgaiyan/multi-server ./server
+  - docker build -t abilgaiyan/multi-worker ./worker
+
+  # Log in to docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take the images to docker hub
+  - docker push abilgaiyan/multi-client
+  - docker push abilgaiyan/multi-nginx
+  - docker push abilgaiyan/multi-server
+  - docker push abilgaiyan/multi-worker
