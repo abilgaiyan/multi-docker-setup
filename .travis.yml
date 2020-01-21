@@ -9,15 +9,15 @@ scripts:
   - docker run -e CI=true abilgaiyan/react-test npm test
 
 after_success:
-  - docker build -t abilgaiyan/multi-client ./client
-  - docker build -t abilgaiyan/multi-nginx ./nginx
-  - docker build -t abilgaiyan/multi-server ./server
-  - docker build -t abilgaiyan/multi-worker ./worker
+  - docker build -t abilgaiyan/md-client ./client
+  - docker build -t abilgaiyan/md-nginx ./nginx
+  - docker build -t abilgaiyan/md-server ./server
+  - docker build -t abilgaiyan/md-worker ./worker
 
   # Log in to docker cli
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take the images to docker hub
-  - docker push abilgaiyan/multi-client
-  - docker push abilgaiyan/multi-nginx
-  - docker push abilgaiyan/multi-server
-  - docker push abilgaiyan/multi-worker
+  - docker push abilgaiyan/md-client
+  - docker push abilgaiyan/md-nginx
+  - docker push abilgaiyan/md-server
+  - docker push abilgaiyan/md-worker
